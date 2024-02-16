@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manejo de Cookies</title>
+</head>
+
+<body>
+
+    <script>
+        function setCookie(name, value, expirationInSeconds) {
+            if (expirationInSeconds) {
+                const date = new Date();
+                date.setTime(date.getTime() + (expirationInSeconds * 1000));
+                const expires = "expires=" + date.toUTCString();
+                document.cookie = name + "=" + value + ";" + expires + ";path=/";
+            } else {
+                document.cookie = name + "=" + value + ";path=/";
+            }
+        }
+
+        function getCookie(name) {
+            const decodedCookies = decodeURIComponent(document.cookie);
+            const cookiesArray = decodedCookies.split(';');
+            for (let i = 0; i < cookiesArray.length; i++) {
+                let cookie = cookiesArray[i].trim();
+                if (cookie.indexOf(name + "=") === 0) {
+                    return cookie.substring(name.length + 1, cookie.length);
+                }
+            }
+            return "";
+        }
+
+        function deleteCookie(name) {
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+        }
+
+        function showCookies() {
+            const language = getCookie("language");
+            const theme = getCookie("theme");
+            const user = getCookie("user");
+            const preference = getCookie("preference");
+            const lastVisit = getCookie("lastVisit");
+
+            console.clear();
+            console.log("Cookies vigentes:");
+            console.log("Language: " + language);
+            console.log("Theme: " + theme);
+            console.log("User: " + user);
+            console.log("Preference: " + preference);
+            console.log("Last Visit: " + lastVisit);
+        }
+
+        if (!sessionStorage.getItem("visited")) {
+            const language = prompt("Ingrese idioma (español, ingles, ...):");
+            const theme = prompt("Ingrese tema (oscuro, claro, ...):");
+            const user = prompt("Ingrese usuario (juan123, ana_78, ...):");
+            const preference = prompt("Ingrese preferencia (alta, baja, ...):");
+            const lastVisit = new Date().toLocaleString();
+
+            setCookie("language", language, 20);
+            setCookie("theme", theme, 15);
+            setCookie("user", user, 10);
+            setCookie("preference", preference);
+            setCookie("lastVisit", lastVisit);
+
+            sessionStorage.setItem("visited", "true");
+        }
+
+        setInterval(showCookies, 2000);
+    </script>
+
+</body>
+
+</html>
