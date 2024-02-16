@@ -53,6 +53,16 @@
             console.log("Last Visit: " + lastVisit);
         }
 
+
+        window.addEventListener('beforeunload', function () {
+            deleteCookie("language");
+            deleteCookie("theme");
+            deleteCookie("user");
+            deleteCookie("preference");
+            deleteCookie("lastVisit");
+        });
+
+
         if (!sessionStorage.getItem("visited")) {
             const language = prompt("Ingrese idioma (español, ingles, ...):");
             const theme = prompt("Ingrese tema (oscuro, claro, ...):");
